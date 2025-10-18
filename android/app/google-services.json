@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "218854965293",
+    "project_id": "flutter-sandbox-testing",
+    "storage_bucket": "flutter-sandbox-testing.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218854965293:android:ae91835c2a0f8c3887f8a4",
+        "android_client_info": {
+          "package_name": "com.example.coffee_card"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd_rx8vKd0teTW2U95w-resQWWbqOvR78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
