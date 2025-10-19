@@ -1,13 +1,13 @@
 import 'package:coffee_card/firebase_options.dart';
+import 'package:coffee_card/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:coffee_card/home.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MaterialApp(home: Home()));
+  runApp(MaterialApp(home: Wrapper()));
 }
 
 class Sandbox extends StatelessWidget {
