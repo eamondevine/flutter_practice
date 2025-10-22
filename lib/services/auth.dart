@@ -9,6 +9,12 @@ class AuthService {
     return user != null ? UserOne(uid: user.uid) : throw Exception('No user');
   }
 
+  Stream<UserOne> get user {
+    return _auth.authStateChanges()
+    // .map((User? user) => _userFromFirebaseUser(user));
+    .map(_userFromFirebaseUser);
+  }
+
   //sign in anonymously
   Future signInAnon() async {
     try {
