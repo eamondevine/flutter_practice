@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:coffee_card/models/user.dart';
 
@@ -22,7 +24,7 @@ class AuthService {
       User? user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return null;
     }
   }
@@ -30,4 +32,12 @@ class AuthService {
   //sign in with email and password
   //register with email and password
   //sign out
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
 }

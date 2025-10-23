@@ -1,9 +1,12 @@
 import 'package:coffee_card/coffee_prefs.dart';
 import 'package:coffee_card/shared/styled_body_text.dart';
 import 'package:flutter/material.dart';
+import 'package:coffee_card/services/auth.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
+
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,21 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Colors.brown[400],
         centerTitle: true,
+        actions: <Widget>[
+          TextButton.icon(
+            onPressed: () async {
+              await _auth.signOut();
+            },
+            label: Text(
+              'logout',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            icon: Icon(Icons.person, color: Colors.white),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

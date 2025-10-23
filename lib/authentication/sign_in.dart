@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:coffee_card/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -27,10 +29,10 @@ class _SignInState extends State<SignIn> {
           onPressed: () async {
             dynamic result = await _auth.signInAnon();
             if (result == null) {
-              print('error signing in');
+              log('error signing in');
             } else {
-              print('login successful');
-              print(result.uid);
+              log('login successful');
+              log(result.uid);
             }
           },
         ),
