@@ -1,3 +1,4 @@
+import 'package:coffee_card/authentication/register.dart';
 import 'package:coffee_card/authentication/sign_in.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,16 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
+  bool showSignIn = true;
+
   @override
   Widget build(BuildContext context) {
-    return SignIn();
+    return MaterialApp(
+      initialRoute: '/signin',
+      routes: {
+        '/signin': (context) => SignIn(),
+        '/register': (context) => Register(),
+      },
+    );
   }
 }

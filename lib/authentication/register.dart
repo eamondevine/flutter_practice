@@ -1,22 +1,23 @@
 import 'dart:developer';
-
-import 'package:coffee_card/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:coffee_card/services/auth.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-//anon state
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
+  //anon
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   //text field state
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,14 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
-        title: Text('Sign In to Coffee Crew'),
+        title: Text('Sign up to Coffee Crew'),
         actions: <Widget>[
           TextButton.icon(
             icon: Icon(Icons.person, color: Colors.black),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, '/signin');
             },
-            label: Text('Register', style: TextStyle(color: Colors.black)),
+            label: Text('Sign in', style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -41,6 +42,7 @@ class _SignInState extends State<SignIn> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Form(
+              key: _formKey,
               child: Column(
                 children: <Widget>[
                   Container(
@@ -53,13 +55,19 @@ class _SignInState extends State<SignIn> {
                         Icon(Icons.email, color: Colors.black),
                         SizedBox(width: 8.0),
                         Text(
-                          'Sign up with email',
+                          'Register with email',
                           style: TextStyle(fontSize: 20, color: Colors.black),
                         ),
                       ],
                     ),
                   ),
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       setState(() {
                         email = value;
@@ -68,6 +76,12 @@ class _SignInState extends State<SignIn> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return 'Enter password 6+ chars long';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     onChanged: (value) {
                       setState(() {
@@ -83,14 +97,26 @@ class _SignInState extends State<SignIn> {
                         backgroundColor: WidgetStateProperty.all(Colors.pink),
                       ),
                       child: Text(
-                        'Sign in',
+                        'Register',
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        log(email);
-                        log(password);
+                        if (_formKey.currentState!.validate()) {
+                          dynamic result = await _auth
+                              .registerWithEmailAndPassword(email, password);
+                          if (result == null) {
+                            setState(() {
+                              error = 'Please enter a valid email';
+                            });
+                          }
+                        }
                       },
                     ),
+                  ),
+                  SizedBox(height: 12.0),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
                   ),
                 ],
               ),
