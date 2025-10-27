@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:coffee_card/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/services/auth.dart';
 
@@ -62,9 +63,10 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   TextFormField(
+                    decoration: textInputDecoration.copyWith(hintText: 'Email'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Enter an email';
                       }
                       return null;
                     },
@@ -76,6 +78,9 @@ class _RegisterState extends State<Register> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    decoration: textInputDecoration.copyWith(
+                      hintText: 'Password',
+                    ),
                     validator: (value) {
                       if (value == null || value.length < 6) {
                         return 'Enter password 6+ chars long';

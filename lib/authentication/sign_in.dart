@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:coffee_card/services/auth.dart';
+import 'package:coffee_card/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -13,10 +14,12 @@ class SignIn extends StatefulWidget {
 //anon state
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   //text field state
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,7 @@ class _SignInState extends State<SignIn> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Form(
+              key: _formKey,
               child: Column(
                 children: <Widget>[
                   Container(
@@ -60,6 +64,13 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   TextFormField(
+                    decoration: textInputDecoration.copyWith(hintText: 'Email'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       setState(() {
                         email = value;
@@ -68,6 +79,15 @@ class _SignInState extends State<SignIn> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    decoration: textInputDecoration.copyWith(
+                      hintText: 'Password',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return 'Enter password 6+ chars long';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     onChanged: (value) {
                       setState(() {
@@ -87,10 +107,25 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        log(email);
-                        log(password);
+                        if (_formKey.currentState!.validate()) {
+                          dynamic result = _auth.signInWithEmailAndPassword(
+                            email,
+                            password,
+                          );
+                          if (result == null) {
+                            setState(() {
+                              error =
+                                  'Could not sign in with those credentials';
+                            });
+                          }
+                        }
                       },
                     ),
+                  ),
+                  SizedBox(height: 12.0),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
                   ),
                 ],
               ),
