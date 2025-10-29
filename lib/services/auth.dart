@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:coffee_card/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:coffee_card/models/user.dart';
 
@@ -52,6 +53,11 @@ class AuthService {
         password: password,
       );
       User? user = result.user;
+
+      // create a new doc for user uid
+      await DatabaseService(
+        uid: user?.uid,
+      ).updateUserData('0', 'new member', 100);
       return _userFromFirebaseUser(user);
     } catch (e) {
       log(e.toString());
