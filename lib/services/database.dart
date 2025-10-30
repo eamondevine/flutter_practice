@@ -14,4 +14,9 @@ class DatabaseService {
       'strength': strength,
     });
   }
+
+  // get brews query
+  Stream<QuerySnapshot> get brews {
+    return brewCollection.snapshots();
+  }
 }

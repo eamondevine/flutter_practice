@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_card/brew-list.dart';
 import 'package:coffee_card/coffee_prefs.dart';
 import 'package:coffee_card/shared/styled_body_text.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/services/auth.dart';
+import 'package:coffee_card/services/database.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -10,51 +14,34 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'My Coffee Card',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.brown[400],
-        centerTitle: true,
-        actions: <Widget>[
-          TextButton.icon(
-            onPressed: () async {
-              await _auth.signOut();
-            },
-            label: Text(
-              'logout',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+    return StreamProvider<QuerySnapshot?>.value(
+      value: DatabaseService().brews,
+      initialData: null,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'My Coffee Card',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.brown[400],
+          centerTitle: true,
+          actions: <Widget>[
+            TextButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              label: Text(
+                'logout',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              icon: Icon(Icons.person, color: Colors.white),
             ),
-            icon: Icon(Icons.person, color: Colors.white),
-          ),
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            color: Colors.brown[200],
-            padding: EdgeInsets.all(20),
-            child: StyledBodyText('How I like mah cafe...'),
-          ),
-          Container(
-            color: Colors.brown[100],
-            padding: EdgeInsets.all(20),
-            child: const CoffeePrefs(),
-          ),
-          Expanded(
-            child: Image.asset(
-              'assets/img/coffee_bg.jpg',
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.bottomCenter,
-            ),
-          ),
-        ],
+          ],
+        ),
+        body: BrewList(),
       ),
     );
   }
