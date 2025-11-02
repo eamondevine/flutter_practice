@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_card/models/brew.dart';
 
 class DatabaseService {
   final String? uid;
@@ -13,6 +14,14 @@ class DatabaseService {
       'name': name,
       'strength': strength,
     });
+  }
+
+  // brew list from snapshot
+
+  List<Brew> _brewListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((d) {
+      return Brew(name: d, sugars: sugars, strength: strength)
+    })
   }
 
   // get brews query

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coffee_card/brew-list.dart';
-import 'package:coffee_card/coffee_prefs.dart';
-import 'package:coffee_card/shared/styled_body_text.dart';
+import 'package:coffee_card/brew_list.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/services/auth.dart';
 import 'package:coffee_card/services/database.dart';
