@@ -1,5 +1,6 @@
 import 'package:coffee_card/models/brew.dart';
 import 'package:coffee_card/brew_list.dart';
+import 'package:coffee_card/settings_form.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/services/auth.dart';
 import 'package:coffee_card/services/database.dart';
@@ -12,6 +13,20 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void showSettingsPanel() {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+            width: double.infinity,
+            alignment: Alignment.topCenter,
+            child: SettingsForm(),
+          );
+        },
+      );
+    }
+
     return StreamProvider<List<Brew>>.value(
       value: DatabaseService().brews,
       initialData: [],
@@ -36,6 +51,11 @@ class Home extends StatelessWidget {
                 ),
               ),
               icon: Icon(Icons.person, color: Colors.white),
+            ),
+            TextButton.icon(
+              icon: Icon(Icons.settings, color: Colors.white),
+              label: Text('settings', style: TextStyle(color: Colors.white)),
+              onPressed: () => {showSettingsPanel()},
             ),
           ],
         ),
