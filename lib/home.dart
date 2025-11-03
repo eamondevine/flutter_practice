@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_card/models/brew.dart';
 import 'package:coffee_card/brew_list.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/services/auth.dart';
@@ -12,9 +12,9 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot?>.value(
+    return StreamProvider<List<Brew>>.value(
       value: DatabaseService().brews,
-      initialData: null,
+      initialData: [],
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
