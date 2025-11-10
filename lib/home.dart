@@ -1,5 +1,5 @@
-import 'package:coffee_card/models/brew.dart';
-import 'package:coffee_card/brew_list.dart';
+import 'package:coffee_card/models/order.dart';
+import 'package:coffee_card/order_list.dart';
 import 'package:coffee_card/settings_form.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/services/auth.dart';
@@ -27,13 +27,13 @@ class Home extends StatelessWidget {
       );
     }
 
-    return StreamProvider<List<Brew>>.value(
-      value: DatabaseService().brews,
+    return StreamProvider<List<Order>>.value(
+      value: DatabaseService().orders,
       initialData: [],
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'My Coffee Card',
+            'My Order Card',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.brown[400],
@@ -59,7 +59,7 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
-        body: BrewList(),
+        body: OrderList(),
       ),
     );
   }

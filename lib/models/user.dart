@@ -7,13 +7,13 @@ class UserOne {
 class UserData {
   final String uid;
   final String name;
-  final String sugars;
-  final int strength;
+  final String dish;
+  final int price;
 
   UserData({
     required this.uid,
-    required this.sugars,
+    required this.dish,
     required this.name,
-    required this.strength,
+    required this.price,
   });
 }

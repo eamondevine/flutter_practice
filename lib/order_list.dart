@@ -1,23 +1,23 @@
-import 'package:coffee_card/models/brew.dart';
+import 'package:coffee_card/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:coffee_card/brew_tile.dart';
+import 'package:coffee_card/order_tile.dart';
 
-class BrewList extends StatefulWidget {
-  const BrewList({super.key});
+class OrderList extends StatefulWidget {
+  const OrderList({super.key});
 
   @override
-  State<BrewList> createState() => _BrewListState();
+  State<OrderList> createState() => _OrderListState();
 }
 
-class _BrewListState extends State<BrewList> {
+class _OrderListState extends State<OrderList> {
   @override
   Widget build(BuildContext context) {
-    final brews = Provider.of<List<Brew>>(context);
+    final orders = Provider.of<List<Order>>(context);
     return ListView.builder(
-      itemCount: brews.length,
+      itemCount: orders.length,
       itemBuilder: (context, index) {
-        return BrewTile(brew: brews[index]);
+        return OrderTile(order: orders[index]);
       },
     );
   }

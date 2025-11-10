@@ -5,6 +5,7 @@ import 'package:coffee_card/models/user.dart';
 import 'package:coffee_card/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_card/shared/constants.dart';
+import 'package:flutter/services.dart';
 
 class SettingsForm extends StatefulWidget {
   const SettingsForm({super.key});
@@ -15,12 +16,11 @@ class SettingsForm extends StatefulWidget {
 
 class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> sugars = ['0', '1', '2', '3', '4'];
 
   //form values
   String? _currentName;
-  String? _currentSugars;
-  int? _currentStrength;
+  String? _currentDish;
+  int? _currentPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -52,34 +52,29 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 20.0),
                 //dropdown
-                DropdownButtonFormField(
-                  initialValue: userData.sugars,
+                TextFormField(
+                  initialValue: userData.dish,
                   decoration: textInputDecoration,
-                  items: sugars.map((sugar) {
-                    return DropdownMenuItem(
-                      value: sugar,
-                      child: Text('$sugar sugars'),
-                    );
-                  }).toList(),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter a dish' : null,
                   onChanged: (value) => setState(() {
-                    _currentSugars = value;
-                    return log(_currentSugars ?? userData.sugars);
+                    _currentDish = value;
+                    return log(_currentDish ?? 'no dish');
                   }),
                 ),
                 //slider
-                Slider(
-                  value: (_currentStrength ?? userData.strength).toDouble(),
-                  activeColor: Colors.brown[_currentStrength ?? 100],
-                  inactiveColor: Colors.brown[_currentStrength ?? 100],
-                  min: 100,
-                  max: 900,
-                  divisions: 8,
-                  onChanged: (value) => {
-                    setState(() {
-                      _currentStrength = value.round();
-                    }),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Price'),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter a price'
+                      : null,
+                  onChanged: (value) {
+                    _currentPrice = int.tryParse(value);
                   },
                 ),
+
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.pink[400]),
@@ -88,9 +83,9 @@ class _SettingsFormState extends State<SettingsForm> {
                     if (_formKey.currentState!.validate()) {
                       final navigator = Navigator.of(context);
                       await DatabaseService(uid: user?.uid).updateUserData(
-                        _currentSugars ?? userData.sugars,
+                        _currentDish ?? userData.dish,
                         _currentName ?? userData.name,
-                        _currentStrength ?? userData.strength,
+                        _currentPrice ?? userData.price,
                       );
 
                       navigator.pop();

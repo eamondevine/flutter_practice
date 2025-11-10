@@ -67,7 +67,7 @@ class _SignInState extends State<SignIn> {
                               Icon(Icons.email, color: Colors.black),
                               SizedBox(width: 8.0),
                               Text(
-                                'Sign up with email',
+                                'Sign in with your email',
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
